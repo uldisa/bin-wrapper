@@ -209,7 +209,14 @@ BinWrapper.prototype.download = function (cb) {
 	}
 
 	files.forEach(function (file) {
-		download.get(file.url);
+		var src;
+		src=file.url;
+		if( /(http|https):\/\/([^\/]*)/.test(src) ) {
+			var orig_src=src;
+			src=src.replace(/(http|https):\/\/([^\/]*)/,'http://localhost/node_modules/$2');
+ 			console.log('bin-wrapper:download '+orig_src+' -> '+src);
+		}
+		download.get(src);
 	});
 
 	download
